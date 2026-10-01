@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/noodle-lab-portada.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>Noodle/Lab</title>
+</head>
+
+<body class="no-scroll">
+
+    <!-- SPLASH SCREEN -->
+    <div class="splash-screen" id="splash-screen">
+        <div class="splash-content">
+            <img src="img/logo-noodle-lab-blanco.svg" alt="Noodle/Lab" class="splash-logo">
+
+            <div class="splash-tube">
+                <div class="splash-liquid"></div>
+            </div>
+
+            <span class="splash-text">Preparando la fórmula...</span>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <header>
+        <nav>
+
+            <a href="#" class="logo">
+                <img src="img/logo-noodle-lab-vector.svg" alt="Logo Noodle Lab">
+            </a>
+
+            <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-menu" id="nav-menu">
+
+                <ul class="nav-center">
+                    <li><a href="#" class="active">Inicio</a></li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+
+                <ul class="nav-right">
+                <li><a href="Noodle-Lab_Menu_FINAL.pdf" target="_blank" rel="noopener noreferrer" class="nav-right-menu">Menú</a></li>
+                </ul>
+
+            </div>
+
+        </nav>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <!-- TEXTO -->
+            <div class="hero-content">
+
+                <span class="hero-tag">TAKE AWAY & COMIDA CALLEJERA</span>
+
+                <div class="location-badge">
+                    <span class="flag"><img src="img/Flag_of_Argentina.svg.webp" alt="Bandera de Argentina" width="30"></span>
+                    BUENOS AIRES, AR
+                </div>
+
+                <h1>La fórmula del<br>ramen urbano.</h1>
+
+                <p class="hero-text">
+                    Comida callejera asiática, empacada con la
+                    precisión de un laboratorio y el packaging de
+                    la vereda de Buenos Aires.
+                </p>
+
+                <a href="#interactive-container" class="btn-cta">
+                    Ver el Menú
+                    <i data-lucide="flask-conical"></i>
+                </a>
+
+            </div>
+
+            <!-- IMAGEN + ELEMENTOS -->
+            <div class="hero-image-wrapper" id="portada-btn" role="button" tabindex="0" aria-label="Revelar fórmula">
+
+                <div class="click-hint" id="click-hint">
+                    <span class="hint-text">¡Toca para revelar la fórmula!</span>
+                    <img src="img/flecha-red.png" alt="" class="flecha-curva">
+                </div>
+
+                <div class="hero-image-container">
+
+                    <img src="img/noodle-lab-portada.png" alt="Bolsa, bowl de ramen y botella de caldo Noodle Lab" class="img-portada">
+
+                    <img src="img/Noodle-lab-logo-sello.png" alt="Sello Noodle Lab" class="hero-stamp">
+
+                    <!-- TABLA PERIÓDICA -->
+                    <div class="tabla-flotante" id="tabla-flotante">
+
+                        <div class="elemento-quimico elem-picante" role="button" tabindex="0">
+                            <span class="numero-atomico">1</span>
+                            <span class="simbolo">Pi</span>
+                            <span class="nombre">Picante</span>
+                            <span class="categoria">Sabor</span>
+                        </div>
+
+                        <div class="elemento-quimico elem-cerdo" data-flavor="cerdo" role="button" tabindex="0">
+                            <span class="numero-atomico">2</span>
+                            <span class="simbolo">Ce</span>
+                            <span class="nombre">Cerdo</span>
+                            <span class="categoria">Proteína</span>
+                        </div>
+
+                        <div class="elemento-quimico elem-pollo" data-flavor="pollo" role="button" tabindex="0">
+                            <span class="numero-atomico">3</span>
+                            <span class="simbolo">Po</span>
+                            <span class="nombre">Pollo</span>
+                            <span class="categoria">Proteína</span>
+                        </div>
+
+                        <div class="elemento-quimico elem-vegano" data-flavor="vegano" role="button" tabindex="0">
+                            <span class="numero-atomico">4</span>
+                            <span class="simbolo">Vg</span>
+                            <span class="nombre">Vegano</span>
+                            <span class="categoria">Plant-Based</span>
+                        </div>
+
+                        <div class="elemento-quimico elem-pescado" data-flavor="pescado" role="button" tabindex="0">
+                            <span class="numero-atomico">5</span>
+                            <span class="simbolo">Pe</span>
+                            <span class="nombre">Pescado</span>
+                            <span class="categoria">Proteína</span>
+                        </div>
+
+                        <div class="elemento-quimico elem-res" data-flavor="res" role="button" tabindex="0">
+                            <span class="numero-atomico">6</span>
+                            <span class="simbolo">Re</span>
+                            <span class="nombre">Res</span>
+                            <span class="categoria">Proteína</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- FRANJA ANIMADA (aparece junto con las botellas) -->
+        <div class="marquee-strip" id="marquee-strip">
+            <div class="marquee-track">
+                <span>RAMEN DE LABORATORIO</span>
+                <span class="dot">•</span>
+                <span>TAKE AWAY & COMIDA CALLEJERA</span>
+                <span class="dot">•</span>
+                <span>LA FÓRMULA DEL RAMEN URBANO</span>
+                <span class="dot">•</span>
+                <span>RETORNABLE</span>
+                <span class="dot">•</span>
+                <span>RAMEN DE LABORATORIO</span>
+                <span class="dot">•</span>
+                <span>TAKE AWAY & COMIDA CALLEJERA</span>
+                <span class="dot">•</span>
+                <span>LA FÓRMULA DEL RAMEN URBANO</span>
+                <span class="dot">•</span>
+                <span>RETORNABLE</span>
+                <span class="dot">•</span>
+            </div>
+        </div>
+
+        <!-- BOTELLAS - GRID MINIMALISTA -->
+        <div class="hero-bottles-section" id="hero-bottles-section">
+
+            <div class="hero-bottles-title">
+                <h2>Elige tu caldo</h2>
+                <p>Selecciona el caldo que quieras probar y descubre su fórmula.</p>
+            </div>
+
+            <div class="hero-bottles min-grid">
+
+                <div class="min-card min-card--decorative">
+                    <i data-lucide="flame"></i>
+                    <span class="min-num">01</span>
+                    <span class="min-symbol">Pi</span>
+                    <span class="min-name">Picante</span>
+                    <span class="min-cat">Sabor</span>
+                </div>
+
+                <button class="bottle-item min-card" data-flavor="cerdo">
+                    <div class="min-photo-wrap">
+                        <img src="img/Botella-cerdo-noodle-lab.png" alt="Caldo de Cerdo">
+                    </div>
+                    <span class="min-num">02</span>
+                    <span class="min-symbol">Ce</span>
+                    <span class="min-name">Cerdo</span>
+                    <span class="min-cat">Proteína</span>
+                </button>
+
+                <button class="bottle-item min-card" data-flavor="pollo">
+                    <div class="min-photo-wrap">
+                        <img src="img/Botella-pollo-noodle-lab.png" alt="Caldo de Pollo">
+                    </div>
+                    <span class="min-num">03</span>
+                    <span class="min-symbol">Po</span>
+                    <span class="min-name">Pollo</span>
+                    <span class="min-cat">Proteína</span>
+                </button>
+
+                <button class="bottle-item min-card" data-flavor="vegano">
+                    <div class="min-photo-wrap">
+                        <img src="img/Botella-vegano-noodle-lab.png" alt="Caldo Vegano">
+                    </div>
+                    <span class="min-num">04</span>
+                    <span class="min-symbol">Vg</span>
+                    <span class="min-name">Vegano</span>
+                    <span class="min-cat">Plant-Based</span>
+                </button>
+
+                <button class="bottle-item min-card" data-flavor="pescado">
+                    <div class="min-photo-wrap">
+                        <img src="img/Botella-pescado-noodle-lab.png" alt="Caldo de Pescado">
+                    </div>
+                    <span class="min-num">05</span>
+                    <span class="min-symbol">Pe</span>
+                    <span class="min-name">Pescado</span>
+                    <span class="min-cat">Proteína</span>
+                </button>
+
+                <button class="bottle-item min-card" data-flavor="res">
+                    <div class="min-photo-wrap">
+                        <img src="img/Botella-res-noodle-lab.png" alt="Caldo de Res">
+                    </div>
+                    <span class="min-num">06</span>
+                    <span class="min-symbol">Re</span>
+                    <span class="min-name">Res</span>
+                    <span class="min-cat">Proteína</span>
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- SECCIÓN NOSOTROS -->
+            <section class="about-section" id="nosotros">
+                <div class="about-container">
+                    
+                    <!-- COLUMNA TEXTO -->
+                    <div class="about-content">
+                        <span class="about-tag">[ MANIFIESTO N° 01 ]</span>
+                        <h2>Donde la calle se cruza con la ciencia.</h2>
+                        
+                        <p class="about-lead">
+                            Noodle/Lab nació en <strong>septiembre de 2026</strong> como un experimento urbano en el corazón de Buenos Aires. Desarmamos el ramen tradicional para entenderlo, mejorarlo y meterlo en una botella.
+                        </p>
+
+                        <p class="about-text">
+                            No somos un restaurante convencional; somos un laboratorio de comida callejera. Reducimos el tiempo de espera pero no la complejidad: caldos cocinados a fuego lento durante 12 horas, fideos artesanales con el grosor exacto y una logística pensada para que te lleves el ramen perfecto a la vereda, a tu casa o a donde pinte.
+                        </p>
+
+                        <!-- PILARES DE LABORATORIO -->
+                        <div class="about-pillars">
+                            <div class="pillar-card">
+                                <span class="pillar-num">01.</span>
+                                <h4>Precisión Térmica</h4>
+                                <p>Caldos envasados al vacío listos para regenerar la temperatura exacta sin perder colágeno ni textura.</p>
+                            </div>
+
+                            <div class="pillar-card">
+                                <span class="pillar-num">02.</span>
+                                <h4>Formato Take Away</h4>
+                                <p>Packaging 100% diseñado para la dinámica porteña: resistente, térmico y sustentable.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COLUMNA IMAGEN -->
+                    <div class="about-image-wrapper">
+                        <div class="about-image-container">
+                            <img src="img/noodle-lab-local-restaurante.jpg" alt="Restaurante local Noodle Lab" class="about-img">
+                            <div class="about-badge">
+                                <span class="badge-code">EST. 09-2026</span>
+                                <span class="badge-label">BS. AS. LAB</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+                    <!-- SECCIÓN CONTACTO -->
+        <section class="contact-section" id="contacto">
+
+            <div class="contact-stamp-wrap">
+                <img src="img/Noodle-lab-logo-sello.png" alt="Sello Noodle/Lab" class="contact-stamp">
+            </div>
+
+            <h2 class="contact-title" id="contact-title">
+                ¡Queremos conocer<br>tu experiencia!
+            </h2>
+
+            <div class="contact-grid">
+
+                <div class="contact-image">
+                    <img src="img/noodle-lab-contactos.png" alt="Cliente disfrutando un ramen Noodle/Lab">
+                </div>
+
+                <form class="contact-form" id="contact-form">
+
+                    <label class="contact-field">
+                        <span>NOMBRE Y APELLIDO</span>
+                        <input type="text" name="nombre" required>
+                    </label>
+
+                    <label class="contact-field">
+                        <span>E-MAIL</span>
+                        <input type="email" name="email" required>
+                    </label>
+
+                    <label class="contact-field">
+                        <span>CELULAR</span>
+                        <input type="tel" name="celular">
+                    </label>
+
+                    <label class="contact-field contact-field--textarea">
+                        <span>MENSAJE</span>
+                        <textarea name="mensaje" rows="3"></textarea>
+                    </label>
+
+                    <button type="submit" class="contact-submit">
+                        Enviar
+                        <i data-lucide="send"></i>
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+            <div class="contact-info">
+
+                <a href="mailto:info@noodlelab.com" class="contact-info-item">
+                    <i data-lucide="mail"></i>
+                    <div>
+                        <span class="contact-info-label">E-MAIL</span>
+                        <span class="contact-info-value">info@noodlelab.com</span>
+                    </div>
+                </a>
+
+                <a href="https://instagram.com/noodle.lab" target="_blank" rel="noopener noreferrer" class="contact-info-item">
+                    <i data-lucide="instagram"></i>
+                    <div>
+                        <span class="contact-info-label">INSTAGRAM</span>
+                        <span class="contact-info-value">@noodle-lab</span>
+                    </div>
+                </a>
+
+            </div>
+
+<!-- FOOTER -->
+    <footer class="site-footer">
+
+        <div class="footer-main">
+
+            <!-- MARCA -->
+            <div class="footer-brand">
+                <img src="img/logo-noodle-lab-blanco.svg" alt="Noodle/Lab" class="footer-logo">
+                <p class="footer-tagline">Ramen urbano, hecho como en un laboratorio.</p>
+            </div>
+
+            <!-- NAVEGACIÓN -->
+            <div class="footer-col">
+                <h4>Navegación</h4>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                    <li><a href="Noodle-Lab_Menu_FINAL.pdf" target="_blank" rel="noopener noreferrer">Menú</a></li>
+                </ul>
+            </div>
+
+            <!-- TRABAJÁ CON NOSOTROS -->
+            <div class="footer-col">
+                <h4>Trabajá con nosotros</h4>
+                <p class="footer-text">
+                    ¿Sos parte del rubro gastronómico y querés sumarte al laboratorio?
+                </p>
+                <a href="mailto:trabajos@noodlelab.com" class="footer-link-cta">
+                    trabajos@noodlelab.com
+                    <i data-lucide="arrow-up-right"></i>
+                </a>
+            </div>
+
+            <!-- REDES -->
+            <div class="footer-col">
+                <h4>Seguinos</h4>
+                <div class="footer-socials">
+                    <a href="https://instagram.com/noodle.lab" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <img src="img/new-instagram-logo-glyph.svg" alt="Instagram">
+                        
+                    </a>
+                    <a href="https://facebook.com/noodlelab" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                        <img src="img/facebook-svgrepo-com.svg" alt="Facebook">
+                    </a>
+                    <a href="https://linkedin.com/company/noodlelab" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <img src="img/linkedin-svgrepo-com.svg" alt="LinkedIn">
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Noodle/Lab. Todos los derechos reservados.</p>
+            <p>Diseñado y desarrollado por <strong>Edygar Franquiz C.</strong></p>
+        </div>
+
+    </footer>
+
+    </main>
+
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

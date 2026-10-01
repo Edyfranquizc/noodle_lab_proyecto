@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 253 50"
+     width="253" height="50"
+     role="img" aria-labelledby="title desc">
+  <title id="title">Noodle Lab</title>
+  <desc id="desc">Vector wordmark for Noodle Lab.</desc>
+  <g fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="40px" font-weight="400">
+    <text x="3" y="39" textLength="149" lengthAdjust="spacingAndGlyphs">Noodle</text>
+    <text x="178" y="39" textLength="69" lengthAdjust="spacingAndGlyphs">Lab</text>
+  </g>
+  <path fill="#BA3826" d="M 166.8 0 H 175 L 161.1 50 H 153 Z"/>
+</svg>
