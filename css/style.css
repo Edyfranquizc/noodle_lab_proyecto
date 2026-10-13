@@ -69,7 +69,7 @@ nav {
     left: 0;
     width: 100%; /* Asegura que ocupe todo el ancho de la pantalla */
     display: grid; 
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr auto auto; /* 4ª columna = botón carrito */
     align-items: center; 
     padding: 20px 40px;
     background: rgba(247, 245, 240, 0.85);
@@ -107,12 +107,71 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
 }
 .nav-right-menu:hover { background-color: var(--brand-graphite); border-color: var(--brand-graphite); }
 
+/* ----- Botón carrito (nav) ----- */
+/* grid-column: 4 lo deja justo a la derecha del botón Menú (que está en la columna 3) */
+.cart-btn {
+    grid-column: 4;
+    position: relative;           /* para poder posicionar el contador encima */
+    margin-left: 14px;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: var(--brand-graphite);
+    border: 1.5px solid var(--brand-graphite);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+.cart-btn svg { width: 20px; height: 20px; }
+.cart-btn:hover { background: var(--brand-graphite); color: var(--bg-lab-white); }
+
+/* ----- Contador del carrito ----- */
+/* Arranca en scale(0) = invisible. Cuando hay productos, el JS suma .has-items y "salta" a scale(1) */
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--brand-chili-red);
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0);
+    transition: transform 0.25s ease;
+}
+.cart-count.has-items { transform: scale(1); }
+
+/* Pequeño "rebote" del carrito cada vez que agregás algo */
+.cart-btn.bump { animation: cart-bump 0.4s ease; }
+@keyframes cart-bump {
+    0%, 100% { transform: scale(1) rotate(0); }
+    40% { transform: scale(1.18) rotate(-6deg); }
+}
+
 /* HAMBURGER */
 .hamburger {
     display: none; flex-direction: column; gap: 5px; background: none; border: none;
     cursor: pointer; padding: 8px; grid-column: 3; justify-self: end;
 }
 .hamburger span { width: 26px; height: 2px; background: var(--brand-graphite); transition: all 0.3s ease; }
+
+/* ----- Hamburguesa → X ----- */
+/* Cada línea mide 2px y hay 5px de espacio entre ellas, así que de una línea a la siguiente
+   hay 7px. Bajamos la de arriba 7px, subimos la de abajo 7px (se encuentran en el centro)
+   y las rotamos ±45° para formar la X. La del medio desaparece. */
+.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* HERO */
 .hero {
@@ -350,6 +409,8 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
 /* TABLET */
 @media (max-width: 1000px) {
     nav { padding: 18px 25px; }
+    nav ul { gap: 18px; }
+    nav ul a { font-size: 14px; }
     .hero { gap: 30px; padding: 20px 30px; }
     .hero-content h1 { font-size: 43px; }
     .hero-text { font-size: 14px; }
@@ -360,9 +421,30 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
 
 /* MOBILE */
 @media (max-width: 768px) {
-    nav { grid-template-columns: 1fr auto; padding: 15px 20px; }
+    nav { grid-template-columns: 1fr auto auto; column-gap: 8px; padding: 15px 20px; } /* logo | carrito | hamburguesa */
     nav img { height: 32px; }
-    .hamburger { display: flex; }
+
+    /* grid-row: 1 en los tres elementos = los obliga a quedar en la MISMA fila.
+       Antes el carrito caía a una segunda fila porque el navegador coloca los items
+       en orden y la hamburguesa (columna 3) estaba antes en el HTML que el carrito (columna 2). */
+    .logo { grid-row: 1; }
+
+    /* Carrito y hamburguesa: mismo tamaño, mismo borde → se leen como un par de acciones */
+    .cart-btn { grid-row: 1; grid-column: 2; margin: 0; width: 40px; height: 40px; }
+    .hamburger {
+        display: flex;
+        grid-row: 1;
+        grid-column: 3;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border: 1.5px solid var(--brand-graphite);
+        border-radius: 8px;
+    }
+    .hamburger span { width: 18px; }
+
     .nav-menu {
         display: none; position: absolute; top: 100%; left: 0; width: 100%;
         flex-direction: column; gap: 20px; padding: 22px 20px; background: var(--bg-lab-white);
@@ -996,4 +1078,612 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     .categoria { font-size: 0.27rem; }
     .hero-stamp { width: 62px; }
     .elem-vegano { right: 50px; }
+}
+
+
+/* =====================================================================
+   TIENDA: CARD DE PRODUCTO + CARRITO + AVISO
+   (todo lo de abajo es nuevo)
+   ===================================================================== */
+
+/* ----- Bloqueo de scroll ----- */
+/* Clase aparte de .no-scroll a propósito: .no-scroll es del hero y el JS la quita al navegar.
+   Así la card y el carrito nunca se pisan con esa lógica. */
+body.lock-scroll { overflow: hidden; }
+
+/* ----- Overlay (fondo oscuro) ----- */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(43, 43, 43, 0.55);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 0;
+    visibility: hidden;                 /* invisible Y no clickeable cuando está cerrado */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1100;                      /* por encima del nav (1000) */
+}
+.overlay.is-open { opacity: 1; visibility: visible; }
+
+/* ----- Botón cerrar (card y carrito) ----- */
+.modal-close {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1.5px solid var(--brand-graphite);
+    background: var(--bg-lab-white);
+    color: var(--brand-graphite);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.modal-close svg { width: 18px; height: 18px; }
+.modal-close:hover { background: var(--brand-graphite); color: var(--bg-lab-white); }
+
+/* ----- Card de producto: contenedor ----- */
+/* Desktop: centrada en pantalla. Mobile: se transforma en "bottom sheet" (más abajo) */
+.product-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: min(440px, calc(100% - 32px));
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--bg-lab-white);
+    border: 1.5px solid var(--brand-graphite);
+    border-radius: 24px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+    z-index: 1200;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -46%) scale(0.97);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+.product-modal.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+.product-modal .modal-close { position: absolute; top: 14px; right: 14px; z-index: 2; }
+
+/* ----- Card de producto: zona de imagen ----- */
+.product-hero {
+    background: var(--bg-crema);
+    height: 210px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 24px 0 16px;
+}
+.product-hero img {
+    height: 100%;
+    width: auto;
+    max-height: 170px;
+    filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.18));
+}
+/* Variante para el Extra picante (no tiene foto: usamos el ícono de llama) */
+.product-hero--picante {
+    background: var(--brand-chili-red);
+    color: var(--bg-lab-white);
+    align-items: center;
+    padding: 0;
+}
+.product-hero--picante svg { width: 72px; height: 72px; }
+
+/* ----- Card de producto: contenido ----- */
+.product-body { padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+.product-tag {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: var(--brand-sage-lab);
+}
+.product-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.product-head h3 { font-size: 24px; font-weight: 700; line-height: 1.15; }
+.product-price { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--brand-chili-red); white-space: nowrap; }
+.product-desc { font-size: 13px; line-height: 1.6; opacity: 0.8; }
+
+.product-sub {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-bottom: 10px;
+}
+.ingredient-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; }
+.ingredient-list li { display: flex; align-items: center; gap: 8px; font-size: 12px; line-height: 1.3; }
+.ingredient-list svg { width: 14px; height: 14px; color: var(--brand-sage-lab); flex-shrink: 0; }
+
+/* ----- Extra picante (checkbox) ----- */
+.extra-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--bg-crema);
+    border: 1.5px dashed rgba(43, 43, 43, 0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+.extra-row:has(input:checked) { border-style: solid; border-color: var(--brand-chili-red); }
+.extra-row input {
+    appearance: none;                   /* sacamos el checkbox nativo para diseñarlo con nuestra paleta */
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    border: 1.5px solid var(--brand-graphite);
+    border-radius: 6px;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+.extra-row input:checked { background: var(--brand-chili-red); border-color: var(--brand-chili-red); }
+.extra-row input:checked::after {
+    content: '';
+    width: 10px;
+    height: 6px;
+    border-left: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    transform: rotate(-45deg) translate(1px, -1px);
+}
+.extra-info { display: flex; flex-direction: column; flex: 1; }
+.extra-info strong { font-family: var(--font-heading); font-size: 13px; }
+.extra-info small { font-size: 11px; opacity: 0.6; }
+.extra-price { font-family: var(--font-heading); font-weight: 700; font-size: 13px; color: var(--brand-chili-red); }
+
+/* ----- Total + selector de cantidad ----- */
+.product-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.product-total { display: flex; flex-direction: column; }
+.product-total span { font-size: 10px; letter-spacing: 1.5px; opacity: 0.55; }
+.product-total strong { font-family: var(--font-heading); font-size: 24px; font-weight: 700; }
+
+.stepper {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px;
+    border: 1.5px solid var(--brand-graphite);
+    border-radius: 999px;
+}
+.stepper button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--brand-graphite);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+.stepper button:hover { background: var(--bg-crema); }
+.stepper button svg { width: 16px; height: 16px; }
+.stepper > span { min-width: 28px; text-align: center; font-family: var(--font-heading); font-weight: 700; font-size: 14px; }
+
+/* ----- Botón "Agregar al carrito" (píldora oscura con + en círculo) ----- */
+.add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 8px 8px 24px;
+    border: none;
+    border-radius: 999px;
+    background: var(--brand-graphite);
+    color: var(--bg-lab-white);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.2s ease;
+}
+.add-btn:hover { background: var(--brand-chili-red); transform: translateY(-2px); }
+.add-plus {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--bg-lab-white);
+    color: var(--brand-graphite);
+}
+.add-plus svg { width: 18px; height: 18px; }
+
+/* ----- Carrito: contenedor (panel lateral en desktop) ----- */
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(420px, 100%);
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-lab-white);
+    border-left: 1.5px solid var(--brand-graphite);
+    z-index: 1200;
+    transform: translateX(100%);        /* escondido fuera de la pantalla, a la derecha */
+    visibility: hidden;
+    transition: transform 0.35s ease, visibility 0.35s ease;
+}
+.cart-drawer.is-open { transform: translateX(0); visibility: visible; }
+
+.cart-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(43, 43, 43, 0.12);
+}
+.cart-head h3 { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; }
+.cart-head h3 svg { width: 22px; height: 22px; color: var(--brand-chili-red); }
+
+.cart-body { flex: 1; min-height: 0; overflow-y: auto; padding: 8px 24px; }
+
+.cart-foot {
+    padding: 18px 24px 24px;
+    background: var(--bg-crema);
+    border-top: 1px solid rgba(43, 43, 43, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.cart-foot:empty { display: none; }     /* si no hay nada, no mostramos la franja vacía */
+
+/* ----- Carrito: cada producto ----- */
+.cart-item {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px dashed rgba(43, 43, 43, 0.2);
+}
+.cart-thumb {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--bg-crema);
+}
+.cart-thumb img { max-height: 46px; width: auto; }
+.cart-thumb--picante { background: var(--brand-chili-red); color: var(--bg-lab-white); }
+.cart-thumb--picante svg { width: 24px; height: 24px; }
+
+.cart-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.cart-name { font-family: var(--font-heading); font-weight: 600; font-size: 14px; }
+.cart-unit { font-size: 11px; opacity: 0.6; }
+
+.cart-line { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.cart-subtotal { font-family: var(--font-heading); font-weight: 700; font-size: 14px; }
+.stepper--sm button { width: 26px; height: 26px; }
+.stepper--sm button svg { width: 14px; height: 14px; }
+.stepper--sm > span { min-width: 22px; font-size: 13px; }
+
+/* ----- Carrito: vacío y pedido confirmado ----- */
+.cart-empty,
+.cart-success {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 12px;
+    padding: 40px 10px;
+}
+.cart-empty svg { width: 44px; height: 44px; color: var(--brand-chili-red); }
+.cart-empty h4,
+.cart-success h4 { font-size: 18px; font-weight: 700; }
+.cart-empty p,
+.cart-success p { font-size: 13px; line-height: 1.6; opacity: 0.7; max-width: 260px; }
+.cart-success .success-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--brand-sage-lab);
+    color: var(--bg-lab-white);
+}
+.cart-success .success-icon svg { width: 30px; height: 30px; }
+
+/* ----- Carrito: total y botones ----- */
+.cart-total { display: flex; align-items: baseline; justify-content: space-between; }
+.cart-total span { font-size: 11px; letter-spacing: 1.5px; opacity: 0.6; }
+.cart-total strong { font-family: var(--font-heading); font-size: 26px; font-weight: 700; }
+
+/* Reutiliza el estilo de .btn-cta pero como <button> de ancho completo */
+.btn-block { width: 100%; border: none; cursor: pointer; font-size: 15px; }
+.cart-clear {
+    align-self: center;
+    background: none;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 12px;
+    text-decoration: underline;
+    color: var(--brand-graphite);
+    opacity: 0.7;
+    cursor: pointer;
+}
+.cart-clear:hover { opacity: 1; color: var(--brand-chili-red); }
+
+/* ----- Aviso (toast) ----- */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: var(--brand-graphite);
+    color: var(--bg-lab-white);
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    transform: translate(-50%, 20px);
+    pointer-events: none;               /* no tapa clicks aunque esté en pantalla */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1300;
+    max-width: calc(100% - 32px);
+}
+.toast svg { width: 16px; height: 16px; color: var(--brand-sage-lab); flex-shrink: 0; }
+.toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+/* ----- Mobile: la card y el carrito suben desde abajo (como en la referencia) ----- */
+@media (max-width: 600px) {
+    .product-modal {
+        top: auto;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: 92vh;
+        border-radius: 28px 28px 0 0;
+        border-bottom: none;
+        transform: translateY(100%);
+    }
+    .product-modal.is-open { transform: translateY(0); }
+    .product-hero { height: 190px; }
+    .product-body { padding: 20px 20px 24px; }
+
+    .cart-drawer {
+        top: auto;
+        left: 0;
+        width: 100%;
+        height: 85vh;
+        border-left: none;
+        border-top: 1.5px solid var(--brand-graphite);
+        border-radius: 28px 28px 0 0;
+        transform: translateY(100%);
+    }
+    .cart-drawer.is-open { transform: translateY(0); }
+    .cart-head { padding: 18px 20px; }
+    .cart-body { padding: 4px 20px; }
+    .cart-foot { padding: 16px 20px 22px; }
+}
+
+
+/* ----- Subtítulo del caldo (ej: Tonkotsu Intenso) ----- */
+.product-subtitle {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--brand-sage-lab);
+    font-weight: 600;
+}
+
+/* ----- Selector de envase (botella nueva / retornable) ----- */
+/* Dos botones lado a lado; el activo se pinta de grafito para que se note cuál elegiste */
+.option-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 12px 14px;
+    background: transparent;
+    color: var(--brand-graphite);
+    border: 1.5px solid rgba(43, 43, 43, 0.3);
+    border-radius: 12px;
+    font-family: var(--font-body);
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.option strong { display: flex; align-items: center; gap: 6px; font-family: var(--font-heading); font-size: 12px; }
+.option strong svg { width: 14px; height: 14px; }
+.option span { font-family: var(--font-heading); font-weight: 700; font-size: 15px; }
+.option:hover { border-color: var(--brand-graphite); }
+.option.is-active { background: var(--brand-graphite); color: var(--bg-lab-white); border-color: var(--brand-graphite); }
+.option.is-active strong svg { color: var(--brand-sage-lab); }
+
+/* ----- Etiqueta "Retornable" en el carrito ----- */
+.cart-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    align-self: flex-start;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--brand-sage-lab);
+    color: var(--bg-lab-white);
+    font-size: 10px;
+    font-weight: 600;
+}
+.cart-tag svg { width: 11px; height: 11px; }
+
+@media (prefers-reduced-motion: reduce) {
+    .product-modal, .cart-drawer, .overlay, .toast, .cart-count { transition: none; }
+    .cart-btn.bump { animation: none; }
+}
+
+
+/* =====================================================================
+   SECCIONES NUEVAS: DELIVERY + PREGUNTAS FRECUENTES
+   ===================================================================== */
+
+/* ----- Aparición al scrollear (.reveal) ----- */
+/* Arranca invisible y 40px más abajo. El JS le suma .in-view cuando entra en pantalla. */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+
+/* ----- Delivery: contenedor y encabezado ----- */
+.delivery-section {
+    padding: 100px 60px;
+    background: var(--bg-crema);
+    border-top: 1px solid rgba(43, 43, 43, 0.1);
+    scroll-margin-top: 80px;       /* evita que el nav fijo tape el título al navegar al ancla */
+}
+.delivery-container { max-width: 1300px; margin: 0 auto; }
+.delivery-head { text-align: center; max-width: 560px; margin: 0 auto 48px; }
+.delivery-head h2 { font-size: 42px; font-weight: 700; line-height: 1.15; margin-bottom: 12px; }
+.delivery-head p { font-size: 15px; line-height: 1.6; opacity: 0.8; }
+
+/* ----- Delivery: tarjetas ----- */
+.delivery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.delivery-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;   /* eyebrow arriba · nombre al medio · botón abajo */
+    gap: 40px;
+    min-height: 230px;
+    padding: 24px;
+    background: var(--bg-lab-white);
+    color: var(--brand-graphite);
+    border: 1.5px solid var(--brand-graphite);
+    border-radius: 16px;
+    text-decoration: none;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+.delivery-card:hover,
+.delivery-card:focus-visible { background: var(--brand-graphite); color: var(--bg-lab-white); transform: translateY(-4px); }
+.delivery-card:focus-visible { outline: 2px solid var(--brand-chili-red); outline-offset: 3px; }
+
+.delivery-eyebrow { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 1.5px; color: var(--brand-sage-lab); }
+.delivery-name { font-family: var(--font-heading); font-size: 32px; font-weight: 700; line-height: 1.1; }
+.delivery-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 600;
+}
+.delivery-arrow {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--brand-chili-red);
+    color: #ffffff;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+}
+.delivery-arrow svg { width: 20px; height: 20px; }
+.delivery-card:hover .delivery-arrow { transform: translate(3px, -3px); }   /* la flecha "sale" hacia afuera */
+
+/* ----- FAQ: contenedor y encabezado ----- */
+.faq-section {
+    padding: 100px 60px;
+    background: var(--bg-lab-white);
+    border-top: 1px solid rgba(43, 43, 43, 0.1);
+    scroll-margin-top: 80px;
+}
+.faq-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;   /* título a la izquierda, preguntas a la derecha */
+    gap: 60px;
+    align-items: start;
+}
+.faq-intro { position: sticky; top: 120px; }   /* el título te acompaña mientras leés las preguntas */
+.faq-intro h2 { font-size: 42px; font-weight: 700; line-height: 1.15; margin-bottom: 14px; }
+.faq-intro p { font-size: 14px; line-height: 1.6; opacity: 0.8; }
+
+/* ----- FAQ: acordeón ----- */
+.faq-list { border-top: 1.5px solid var(--brand-graphite); }
+.faq-item { border-bottom: 1px solid rgba(43, 43, 43, 0.2); }
+.faq-item h3 { font-size: inherit; font-weight: inherit; }
+
+.faq-question {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 4px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--brand-graphite);
+    transition: color 0.2s ease;
+}
+.faq-question:hover { color: var(--brand-chili-red); }
+.faq-question svg { width: 22px; height: 22px; flex-shrink: 0; color: var(--brand-chili-red); transition: transform 0.3s ease; }
+.faq-item.is-open .faq-question svg { transform: rotate(45deg); }   /* el + gira y se vuelve ✕ */
+
+/* Truco para animar la altura: un grid cuya fila pasa de 0fr (cerrada) a 1fr (abierta).
+   Con height: auto el navegador no puede animar; con fr sí. */
+.faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
+.faq-item.is-open .faq-answer { grid-template-rows: 1fr; }
+.faq-answer > div { overflow: hidden; min-height: 0; }
+.faq-answer p { padding: 0 40px 22px 4px; font-size: 14px; line-height: 1.7; opacity: 0.85; }
+.faq-answer a { color: var(--brand-chili-red); font-weight: 600; }
+
+/* ----- Responsive: tablet ----- */
+@media (max-width: 1000px) {
+    .delivery-section, .faq-section { padding: 80px 40px; }
+    .delivery-head h2, .faq-intro h2 { font-size: 34px; }
+    .delivery-name { font-size: 26px; }
+    .faq-container { gap: 40px; }
+}
+
+/* ----- Responsive: mobile ----- */
+@media (max-width: 768px) {
+    .delivery-section, .faq-section { padding: 60px 20px; scroll-margin-top: 65px; }
+    .delivery-head { margin-bottom: 32px; }
+    .delivery-head h2, .faq-intro h2 { font-size: 28px; }
+
+    .delivery-grid { grid-template-columns: 1fr; gap: 14px; }
+    .delivery-card { min-height: 170px; gap: 28px; padding: 20px; }
+    .delivery-name { font-size: 26px; }
+
+    .faq-container { grid-template-columns: 1fr; gap: 28px; }
+    .faq-intro { position: static; }      /* en una sola columna ya no tiene sentido que sea sticky */
+    .faq-question { font-size: 15px; padding: 18px 2px; }
+    .faq-answer p { padding-right: 8px; font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal { transition: none; opacity: 1; transform: none; }
+    .faq-answer, .faq-question svg, .delivery-card, .delivery-arrow { transition: none; }
 }
