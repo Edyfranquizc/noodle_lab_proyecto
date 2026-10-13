@@ -62,12 +62,17 @@ Los pasos son secuenciales: nunca se disparan al mismo tiempo.
 ## 📁 Estructura
 
 ```
-noodle-lab/
+NOODLE_LAB_PROYECTO/
+├── css/
+│   └── style.css
+├── img/
+├── js/
+│   ├── carrito.js
+│   ├── main.js
+│   └── tienda-datos.js
 ├── index.html
-├── style.css
-├── script.js
-└── assets/
-    └── logo-noodle-lab-blanco.svg
+├── Noodle-Lab_Menu_FINAL...pdf
+└── README.md
 ```
 
 ---
