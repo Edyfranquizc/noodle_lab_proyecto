@@ -80,4 +80,4 @@ Abrí `index.html` en el navegador. No necesita instalación.
 
 ## 👩‍💻 Autora
 
-**Edy Franquiz**: UX/UI Designer & Frontend Developer
+**Edygar Franquiz**: UX/UI Designer & Frontend Developer
