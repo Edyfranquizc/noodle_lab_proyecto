@@ -274,18 +274,17 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
 .elem-pescado { top: 35%; right: -35px; background: var(--brand-graphite); color: var(--bg-lab-white); border: none; }
 .elem-res { bottom: 5%; right: 120px; background: var(--brand-chili-red); color: var(--bg-lab-white); border: none; }
 
-/* FRANJA ANIMADA (MARQUEE) — oculta hasta que aparecen las botellas */
+/* FRANJA ANIMADA (MARQUEE) — siempre visible */
 .marquee-strip {
     background: #2B2B2B;
     color: #F7F5F0;
     overflow: hidden;
     padding: 16px 0;
     white-space: nowrap;
-    display: none;
-    opacity: 0;
-    transition: opacity 0.5s ease;
+    position: sticky;   /* se queda pegada al borde de abajo de la pantalla hasta llegar a su lugar natural */
+    bottom: 0;
+    z-index: 90;        /* por encima de los elementos del hero (sello, flecha, tabla), por debajo del nav y los paneles */
 }
-.marquee-strip.is-visible { display: block; opacity: 1; }
 .marquee-track {
     display: inline-flex;
     align-items: center;
@@ -1172,6 +1171,14 @@ body.lock-scroll { overflow: hidden; }
 }
 .product-hero--picante svg { width: 72px; height: 72px; }
 
+/* ----- Variante foto: imagen horizontal que se ve COMPLETA ----- */
+/* El JS agrega .product-hero--photo cuando la imagen es más ancha que alta.
+   Quitamos la altura fija y el margen: la foto ocupa todo el ancho de la card y
+   conserva sus proporciones (height: auto), así que no se recorta nada.
+   Usamos dos clases juntas para ganarle en especificidad a la altura del mobile. */
+.product-hero.product-hero--photo { height: auto; padding: 0; display: block; }
+.product-hero.product-hero--photo img { display: block; width: 100%; height: auto; max-height: none; filter: none; }
+
 /* ----- Card de producto: contenido ----- */
 .product-body { padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 16px; }
 .product-tag {
@@ -1686,4 +1693,58 @@ body.lock-scroll { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
     .reveal { transition: none; opacity: 1; transform: none; }
     .faq-answer, .faq-question svg, .delivery-card, .delivery-arrow { transition: none; }
+}
+
+
+/* ----- Scroll "glass" (card de producto y carrito) ----- */
+/* Una barra fina y translúcida: pista transparente, sin flechas y con una "píldora" flotante.
+   Son dos bloques porque cada navegador se estiliza distinto:
+   - Chrome, Edge y Safari usan los pseudo-elementos ::-webkit-scrollbar
+   - Firefox usa las propiedades scrollbar-width y scrollbar-color
+   @supports elige el bloque correcto. Hace falta porque Chrome nuevo IGNORA los ::-webkit-scrollbar
+   si también ve scrollbar-color, y entonces perderíamos el diseño. */
+
+@supports selector(::-webkit-scrollbar) {
+
+    .product-modal::-webkit-scrollbar,
+    .cart-body::-webkit-scrollbar { width: 12px; }
+
+    /* La pista (el "riel") es transparente. El margin la acorta arriba y abajo
+       para que la barra no choque con las esquinas redondeadas */
+    .product-modal::-webkit-scrollbar-track,
+    .cart-body::-webkit-scrollbar-track { background: transparent; margin: 18px 0; }
+
+    /* Sin las flechitas de arriba y abajo */
+    .product-modal::-webkit-scrollbar-button,
+    .cart-body::-webkit-scrollbar-button { display: none; }
+
+    /* La píldora: gris translúcido con degradé suave + borde interior claro (el brillo del "vidrio").
+       El border transparente de 3px + background-clip: padding-box la hace más delgada
+       y la separa de los bordes, como si flotara. */
+    .product-modal::-webkit-scrollbar-thumb,
+    .cart-body::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, rgba(43, 43, 43, 0.32), rgba(43, 43, 43, 0.18));
+        background-clip: padding-box;
+        border: 3px solid transparent;
+        border-radius: 999px;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+    }
+
+    /* Al pasar el mouse se vuelve un poco más oscura */
+    .product-modal::-webkit-scrollbar-thumb:hover,
+    .cart-body::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, rgba(43, 43, 43, 0.5), rgba(43, 43, 43, 0.32));
+        background-clip: padding-box;
+    }
+
+}
+
+@supports not selector(::-webkit-scrollbar) {
+
+    .product-modal,
+    .cart-body {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(43, 43, 43, 0.3) transparent;   /* color de la píldora | color de la pista */
+    }
+
 }
