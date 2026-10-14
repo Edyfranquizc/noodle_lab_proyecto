@@ -116,7 +116,6 @@ navLinks.forEach((link) => {
 const portadaBtn = document.getElementById('portada-btn');
 const tablaFlotante = document.getElementById('tabla-flotante');
 const heroBottlesSection = document.getElementById('hero-bottles-section');
-const marqueeStrip = document.getElementById('marquee-strip');
 const clickHint = document.getElementById('click-hint');
 
 if (portadaBtn) {
@@ -182,7 +181,6 @@ elementosQuimicos.forEach((elemento) => {
         const yaEstaVisible = heroBottlesSection?.classList.contains('is-visible');
 
         heroBottlesSection?.classList.add('is-visible');
-        marqueeStrip?.classList.add('is-visible');
 
         const delay = yaEstaVisible ? 0 : 550;
 
@@ -282,15 +280,12 @@ if (contactForm) {
 }
 
 
-/* 
-    DELIVERY + PREGUNTAS FRECUENTES
-    (todo lo de abajo es nuevo)
-    */
+/* DELIVERY + PREGUNTAS FRECUENTES */
 
 
-    /* REVEAL: LOS ELEMENTOS CON .reveal APARECEN AL ENTRAR EN PANTALLA
-    Un solo observer sirve para todos: cada vez que un .reveal entra, le sumamos .in-view
-    y dejamos de observarlo (unobserve) porque la animación ya cumplió su trabajo. */
+/* REVEAL: LOS ELEMENTOS CON .reveal APARECEN AL ENTRAR EN PANTALLA
+   Un solo observer sirve para todos: cada vez que un .reveal entra, le sumamos .in-view
+   y dejamos de observarlo (unobserve) porque la animación ya cumplió su trabajo. */
 
 const revealEls = document.querySelectorAll('.reveal');
 
