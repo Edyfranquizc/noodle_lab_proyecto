@@ -4,7 +4,7 @@
 
 /* TIENDA — DATOS DEL MENÚ
 
-    Salen de tu carta oficial (Noodle-Lab_Menu_FINAL.pdf).
+    Salen del menu - carta oficial (Noodle-Lab_Menu_FINAL.pdf).
     Es el ÚNICO lugar donde viven los datos: si cambia un precio, se cambia
     acá y se actualiza solo en la card, el carrito y el total.
     (Menos el el precio del Extra Picante, que no estaba en tu PDF y lo puse yo.)
@@ -37,7 +37,7 @@ const MENU = {
         category: 'Proteína',
         price: 32000,
         priceReturn: 22000,
-        image: '/img/bowl-botella-caldo-cerdo.png',
+        image: './img/bowl-botella-caldo-cerdo.png',
         description: '12hs de cocción con colágeno. Fideos incluidos.',
         ingredients: ['Caldo tonkotsu intenso', '12hs de cocción con colágeno', 'Fideos incluidos']
     },
@@ -50,7 +50,7 @@ const MENU = {
         category: 'Proteína',
         price: 32000,
         priceReturn: 22000,
-        image: '/img/bowl-botella-caldo-de-pollo.png',
+        image: './img/bowl-botella-caldo-de-pollo.png',
         description: 'Emulsión cremosa de pollo con aceite de sésamo.',
         ingredients: ['Emulsión cremosa de pollo', 'Aceite de sésamo']
     },
@@ -63,7 +63,7 @@ const MENU = {
         category: 'Plant-Based',
         price: 29000,
         priceReturn: 19000,
-        image: '/img/bowl-botella-caldo-vegano.png',
+        image: './img/bowl-botella-caldo-vegano.png',
         description: 'Miso blanco, hongos shiitake y kombu.',
         ingredients: ['Miso blanco', 'Hongos shiitake', 'Kombu']
     },
@@ -76,7 +76,7 @@ const MENU = {
         category: 'Proteína',
         price: 32000,
         priceReturn: 22000,
-        image: '/img/bowl-botella-caldo-pescado.png',
+        image: './img/bowl-botella-caldo-pescado.png',
         description: 'Dashi tradicional de katsuobushi.',
         ingredients: ['Dashi de katsuobushi', 'Ostra']
     },
@@ -89,7 +89,7 @@ const MENU = {
         category: 'Proteína',
         price: 32000,
         priceReturn: 22000,
-        image: '/img/bowl-botella-caldo-de-res.png',
+        image: './img/bowl-botella-caldo-de-res.png',
         description: 'Caldo limpio de res, soja madurada y jengibre.',
         ingredients: ['Caldo limpio de res', 'Soja madurada', 'Jengibre']
     }
