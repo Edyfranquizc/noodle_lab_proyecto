@@ -50,7 +50,10 @@
                 <ul class="nav-center">
                     <li><a href="#" class="active">Inicio</a></li>
                     <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#delivery">Delivery</a></li>
+                    <li><a href="#faq">FAQ</a></li>
                     <li><a href="#contacto">Contacto</a></li>
+                    <li><a href="blog/">Blog</a></li>
                 </ul>
 
                 <ul class="nav-right">
@@ -58,6 +61,14 @@
                 </ul>
 
             </div>
+
+            <!-- BOTÓN CARRITO
+                 Está FUERA de .nav-menu a propósito: en mobile ese menú se esconde
+                 dentro de la hamburguesa y el carrito tiene que verse siempre. -->
+            <button class="cart-btn" id="cart-btn" aria-label="Abrir carrito" aria-expanded="false">
+                <i data-lucide="shopping-cart"></i>
+                <span class="cart-count" id="cart-count">0</span>
+            </button>
 
         </nav>
     </header>
@@ -160,7 +171,7 @@
 
         </section>
 
-        <!-- FRANJA ANIMADA (aparece junto con las botellas) -->
+        <!-- FRANJA ANIMADA (siempre visible en el hero) -->
         <div class="marquee-strip" id="marquee-strip">
             <div class="marquee-track">
                 <span>RAMEN DE LABORATORIO</span>
@@ -192,13 +203,15 @@
 
             <div class="hero-bottles min-grid">
 
-                <div class="min-card min-card--decorative">
+                <!-- Picante: antes era un div decorativo. Ahora es un botón con data-flavor
+                     para que el JS pueda abrir su card (Extra picante). Se ve igual. -->
+                <button type="button" class="min-card min-card--decorative" data-flavor="picante" aria-label="Ver Extra Picante">
                     <i data-lucide="flame"></i>
                     <span class="min-num">01</span>
                     <span class="min-symbol">Pi</span>
                     <span class="min-name">Picante</span>
                     <span class="min-cat">Sabor</span>
-                </div>
+                </button>
 
                 <button class="bottle-item min-card" data-flavor="cerdo">
                     <div class="min-photo-wrap">
@@ -301,7 +314,154 @@
                 </div>
             </section>
 
-                    <!-- SECCIÓN CONTACTO -->
+                    <!-- SECCIÓN DELIVERY -->
+        <section class="delivery-section" id="delivery">
+            <div class="delivery-container">
+
+                <div class="delivery-head reveal">
+                    <span class="about-tag">[ SIN MOVERTE ]</span>
+                    <h2>Pedí por Delivery</h2>
+                    <p>Te lo llevamos donde estés.</p>
+                </div>
+
+                <!-- Cada tarjeta ES un enlace (<a>): todo el recuadro es clickeable, no solo el botón -->
+                <div class="delivery-grid reveal">
+
+                    <a href="https://www.rappi.com.ar" class="delivery-card" target="_blank" rel="noopener noreferrer" aria-label="Pedir por Rappi (se abre en una pestaña nueva)">
+                        <span class="delivery-eyebrow">01 · DELIVERY</span>
+                        <span class="delivery-name">Rappi</span>
+                        <span class="delivery-foot">
+                            Pedí con envío
+                            <span class="delivery-arrow"><i data-lucide="arrow-up-right"></i></span>
+                        </span>
+                    </a>
+
+                    <a href="https://www.pedidosya.com.ar" class="delivery-card" target="_blank" rel="noopener noreferrer" aria-label="Pedir por PedidosYa (se abre en una pestaña nueva)">
+                        <span class="delivery-eyebrow">02 · DELIVERY</span>
+                        <span class="delivery-name">PedidosYa</span>
+                        <span class="delivery-foot">
+                            Pedí con envío
+                            <span class="delivery-arrow"><i data-lucide="arrow-up-right"></i></span>
+                        </span>
+                    </a>
+
+                    <a href="https://www.mercadopago.com.ar" class="delivery-card" target="_blank" rel="noopener noreferrer" aria-label="Pedir por Mercado Pago (se abre en una pestaña nueva)">
+                        <span class="delivery-eyebrow">03 · MP DELIVERY</span>
+                        <span class="delivery-name">Mercado Pago</span>
+                        <span class="delivery-foot">
+                            Pedí con envío
+                            <span class="delivery-arrow"><i data-lucide="arrow-up-right"></i></span>
+                        </span>
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN PREGUNTAS FRECUENTES -->
+        <section class="faq-section" id="faq">
+            <div class="faq-container">
+
+                <div class="faq-intro reveal">
+                    <span class="about-tag">[ FAQ ]</span>
+                    <h2>Preguntas Frecuentes</h2>
+                    <p>Todo lo que querés saber antes de probar la fórmula.</p>
+                </div>
+
+                <!-- Acordeón: cada pregunta es un botón que abre y cierra su respuesta -->
+                <div class="faq-list reveal">
+
+                    <div class="faq-item">
+                        <h3>
+                            <button type="button" class="faq-question" id="faq-q1" aria-expanded="false" aria-controls="faq-a1">
+                                <span>¿Qué es el envase retornable?</span>
+                                <i data-lucide="plus"></i>
+                            </button>
+                        </h3>
+                        <div class="faq-answer" id="faq-a1" role="region" aria-labelledby="faq-q1">
+                            <div>
+                                <p>Traé tu botella vacía y te la rellenamos a precio especial. Con tu botella, el caldo sale $22.000 en vez de $32.000 (el Vegano, $19.000 en vez de $29.000).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>
+                            <button type="button" class="faq-question" id="faq-q2" aria-expanded="false" aria-controls="faq-a2">
+                                <span>¿Cuánto tiempo se cocinan los caldos?</span>
+                                <i data-lucide="plus"></i>
+                            </button>
+                        </h3>
+                        <div class="faq-answer" id="faq-a2" role="region" aria-labelledby="faq-q2">
+                            <div>
+                                <p>Cocción lenta a fuego bajo durante 12 horas. El Tonkotsu de cerdo, por ejemplo, se cocina 12 hs para sacarle todo el colágeno.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>
+                            <button type="button" class="faq-question" id="faq-q3" aria-expanded="false" aria-controls="faq-a3">
+                                <span>¿Cómo caliento mi caldo?</span>
+                                <i data-lucide="plus"></i>
+                            </button>
+                        </h3>
+                        <div class="faq-answer" id="faq-a3" role="region" aria-labelledby="faq-q3">
+                            <div>
+                                <p>Viene envasado herméticamente. Calentalo hasta 85°C – 90°C, la temperatura de servicio de nuestros ramen, y consumilo apenas lo abras para mantener sus propiedades térmicas.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>
+                            <button type="button" class="faq-question" id="faq-q4" aria-expanded="false" aria-controls="faq-a4">
+                                <span>¿Tienen opción vegana?</span>
+                                <i data-lucide="plus"></i>
+                            </button>
+                        </h3>
+                        <div class="faq-answer" id="faq-a4" role="region" aria-labelledby="faq-q4">
+                            <div>
+                                <p>Sí. El Caldo Vegano (Miso Shiitake) lleva miso blanco, hongos shiitake y kombu.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>
+                            <button type="button" class="faq-question" id="faq-q5" aria-expanded="false" aria-controls="faq-a5">
+                                <span>¿Puedo pedir extra picante?</span>
+                                <i data-lucide="plus"></i>
+                            </button>
+                        </h3>
+                        <div class="faq-answer" id="faq-a5" role="region" aria-labelledby="faq-q5">
+                            <div>
+                                <p>Sí. Al elegir tu caldo, tildá la opción “Extra picante” y se suma aparte a tu pedido.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>
+                            <button type="button" class="faq-question" id="faq-q6" aria-expanded="false" aria-controls="faq-a6">
+                                <span>¿Hacen delivery?</span>
+                                <i data-lucide="plus"></i>
+                            </button>
+                        </h3>
+                        <div class="faq-answer" id="faq-a6" role="region" aria-labelledby="faq-q6">
+                            <div>
+                                <p>Sí, por Rappi, PedidosYa y Mercado Pago. Mirá los botones de la sección <a href="#delivery">Delivery</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN CONTACTO -->
         <section class="contact-section" id="contacto">
 
             <div class="contact-stamp-wrap">
@@ -388,7 +548,10 @@
                 <ul>
                     <li><a href="#">Inicio</a></li>
                     <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#delivery">Delivery</a></li>
+                    <li><a href="#faq">FAQ</a></li>
                     <li><a href="#contacto">Contacto</a></li>
+                    <li><a href="blog/">Blog</a></li>
                     <li><a href="Noodle-Lab_Menu_FINAL.pdf" target="_blank" rel="noopener noreferrer">Menú</a></li>
                 </ul>
             </div>
@@ -435,6 +598,36 @@
 
     </main>
 
+    <!-- TIENDA: CARD DE PRODUCTO + CARRITO 
+         Estos tres bloques empiezan vacíos o cerrados. El JS los llena y los abre.
+         Están FUERA del <nav> a propósito: el nav tiene backdrop-filter y eso
+         rompería el position: fixed de cualquier hijo suyo. -->
+
+    <!-- Fondo oscuro detrás de la card o del carrito -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Card de producto (el JS la genera al hacer click en un caldo) -->
+    <div class="product-modal" id="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-title" aria-hidden="true"></div>
+
+    <!-- Carrito -->
+    <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title" aria-hidden="true">
+        <div class="cart-head">
+            <h3 id="cart-title"><i data-lucide="shopping-cart"></i> Tu pedido</h3>
+            <button type="button" class="modal-close" data-close aria-label="Cerrar carrito"><i data-lucide="x"></i></button>
+        </div>
+        <div class="cart-body" id="cart-body"></div>
+        <div class="cart-foot" id="cart-foot"></div>
+    </aside>
+
+    <!-- Aviso corto al agregar algo -->
+    <div class="toast" id="toast" role="status" aria-live="polite">
+        <i data-lucide="check"></i>
+        <span id="toast-text"></span>
+    </div>
+
+    <!-- Orden importante: tienda-datos.js tiene que ir antes que carrito.js -->
     <script src="js/main.js"></script>
+    <script src="js/tienda-datos.js"></script>
+    <script src="js/carrito.js"></script>
 </body>
 </html>

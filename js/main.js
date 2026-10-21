@@ -116,7 +116,6 @@ navLinks.forEach((link) => {
 const portadaBtn = document.getElementById('portada-btn');
 const tablaFlotante = document.getElementById('tabla-flotante');
 const heroBottlesSection = document.getElementById('hero-bottles-section');
-const marqueeStrip = document.getElementById('marquee-strip');
 const clickHint = document.getElementById('click-hint');
 
 if (portadaBtn) {
@@ -182,7 +181,6 @@ elementosQuimicos.forEach((elemento) => {
         const yaEstaVisible = heroBottlesSection?.classList.contains('is-visible');
 
         heroBottlesSection?.classList.add('is-visible');
-        marqueeStrip?.classList.add('is-visible');
 
         const delay = yaEstaVisible ? 0 : 550;
 
@@ -280,3 +278,61 @@ if (contactForm) {
     });
 
 }
+
+
+/* DELIVERY + PREGUNTAS FRECUENTES */
+
+
+/* REVEAL: LOS ELEMENTOS CON .reveal APARECEN AL ENTRAR EN PANTALLA
+   Un solo observer sirve para todos: cada vez que un .reveal entra, le sumamos .in-view
+   y dejamos de observarlo (unobserve) porque la animación ya cumplió su trabajo. */
+
+const revealEls = document.querySelectorAll('.reveal');
+
+if (revealEls.length) {
+
+    const revealObserver = new IntersectionObserver((entries) => {
+
+        entries.forEach((entry) => {
+
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                revealObserver.unobserve(entry.target);
+            }
+
+        });
+
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    revealEls.forEach((el) => revealObserver.observe(el));
+
+}
+
+
+/* FAQ: ACORDEÓN (se abre una pregunta a la vez)
+   Al hacer click en una pregunta: cerramos todas, y abrimos la clickeada
+   salvo que ya estuviera abierta (en ese caso queda todo cerrado). */
+
+const faqItems = document.querySelectorAll('.faq-item');
+
+faqItems.forEach((item) => {
+
+    const question = item.querySelector('.faq-question');
+
+    question.addEventListener('click', () => {
+
+        const willOpen = !item.classList.contains('is-open');
+
+        faqItems.forEach((other) => {
+            other.classList.remove('is-open');
+            other.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+
+        if (willOpen) {
+            item.classList.add('is-open');
+            question.setAttribute('aria-expanded', 'true');
+        }
+
+    });
+
+});
