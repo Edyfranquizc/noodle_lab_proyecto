@@ -270,7 +270,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
 .elem-picante { top: -20px; left: 10%; background: var(--brand-chili-red); color: var(--bg-lab-white); border: none; }
 .elem-cerdo { top: 20%; left: -35px; background: var(--brand-sage-lab); color: var(--bg-lab-white); border: none; }
 .elem-pollo { bottom: 15%; left: -30px; background: var(--brand-orange); border-color: var(--brand-orange); }
-.elem-vegano { top: -25px; right: 20%; background: var(--bg-crema); color: var(--brand-graphite); border: none; }
+.elem-vegano { top: -25px; left: 60%; background: var(--bg-crema); color: var(--brand-graphite); border: none; }
 .elem-pescado { top: 35%; right: -35px; background: var(--brand-graphite); color: var(--bg-lab-white); border: none; }
 .elem-res { bottom: 5%; right: 120px; background: var(--brand-chili-red); color: var(--bg-lab-white); border: none; }
 
@@ -669,7 +669,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
 
 /* SELLO PARPADEANTE */
 .contact-stamp {
-    width: 130px;
+    width: 200px;
     height: auto;
     animation: stamp-blink 3s ease-in-out infinite;
 }
@@ -1080,10 +1080,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
 }
 
 
-/* =====================================================================
-   TIENDA: CARD DE PRODUCTO + CARRITO + AVISO
-   (todo lo de abajo es nuevo)
-   ===================================================================== */
+/* ----- Tienda: card de producto, carrito y aviso ----- */
 
 /* ----- Bloqueo de scroll ----- */
 /* Clase aparte de .no-scroll a propósito: .no-scroll es del hero y el JS la quita al navegar.
@@ -1541,9 +1538,7 @@ body.lock-scroll { overflow: hidden; }
 }
 
 
-/* =====================================================================
-   SECCIONES NUEVAS: DELIVERY + PREGUNTAS FRECUENTES
-   ===================================================================== */
+/* ----- Secciones: Delivery y Preguntas Frecuentes ----- */
 
 /* ----- Aparición al scrollear (.reveal) ----- */
 /* Arranca invisible y 40px más abajo. El JS le suma .in-view cuando entra en pantalla. */
@@ -1747,4 +1742,113 @@ body.lock-scroll { overflow: hidden; }
         scrollbar-color: rgba(43, 43, 43, 0.3) transparent;   /* color de la píldora | color de la pista */
     }
 
+}
+
+
+/* ----- Páginas de estado: 404 y blog en construcción ----- */
+/* Estos estilos los comparten 404.html y blog/index.html.
+   Cada página elige su color con un modificador en el <main>:
+   .status-page--error (rojo) o .status-page--blog (verde). */
+
+/* Variables locales: viven solo dentro de cada modificador, así que los elementos
+   de abajo (tarjeta, sombra, etiqueta) cambian de color sin repetir reglas. */
+.status-page--error {
+    --status-accent: var(--brand-chili-red);
+    --status-shadow: rgba(232, 70, 47, 0.28);
+    --status-tag: var(--brand-sage-lab);
+}
+.status-page--blog {
+    --status-accent: var(--brand-sage-lab);
+    --status-shadow: rgba(78, 140, 124, 0.3);
+    --status-tag: var(--brand-chili-red);
+}
+
+/* ----- Estado: estructura (todo centrado en la pantalla) ----- */
+.status-page {
+    min-height: 100vh;
+    min-height: 100svh;                 /* svh = alto real visible en celulares (sin la barra del navegador) */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    padding: 80px 24px 40px;
+    text-align: center;
+}
+
+/* ----- Estado: marca de arriba (texto, no imagen) ----- */
+.status-brand {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--brand-graphite);
+    text-decoration: none;
+}
+.status-brand span { color: var(--brand-chili-red); }
+.status-brand:focus-visible { outline: 2px solid var(--brand-chili-red); outline-offset: 3px; }
+
+/* ----- Estado: tarjeta de tabla periódica ----- */
+.status-element {
+    width: 170px;
+    height: 170px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--status-accent);
+    color: var(--bg-lab-white);
+    border-radius: 16px;
+    box-shadow: 0 16px 36px var(--status-shadow);
+    font-family: var(--font-heading);
+    animation: status-float 3.5s ease-in-out infinite;
+}
+.status-element-number { font-size: 14px; font-weight: 700; text-align: left; }
+.status-element-symbol { font-size: 64px; font-weight: 800; line-height: 1; }
+.status-element-name { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
+.status-element-cat { font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; opacity: 0.85; }
+
+@keyframes status-float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+/* ----- Estado: tubo de ensayo que se llena (blog) ----- */
+.status-tube { width: 200px; height: 8px; border-radius: 20px; background: rgba(43, 43, 43, 0.12); overflow: hidden; }
+.status-liquid {
+    height: 100%;
+    width: 0%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, var(--bg-crema), var(--brand-chili-red));
+    animation: status-fill 2.8s ease-in-out infinite;   /* infinite = se repite sin parar */
+}
+@keyframes status-fill {
+    0% { width: 0%; }
+    80%, 100% { width: 100%; }
+}
+
+/* ----- Estado: textos ----- */
+.status-tag { font-size: 12px; font-weight: 600; letter-spacing: 1.5px; color: var(--status-tag); }
+.status-title { font-size: clamp(30px, 6vw, 46px); font-weight: 700; line-height: 1.1; }
+.status-message { max-width: 440px; font-size: 14px; line-height: 1.6; opacity: 0.8; }
+
+/* ----- Estado: botones ----- */
+/* El botón principal reutiliza .btn-cta. El secundario es .btn-cta--outline (solo borde).
+   Usa un box-shadow inset en vez de border para no cambiar el tamaño respecto al principal. */
+.status-actions { width: 100%; max-width: 420px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.btn-cta--outline { background: transparent; color: var(--brand-graphite); box-shadow: inset 0 0 0 1.5px var(--brand-graphite); }
+.btn-cta--outline:hover { color: var(--bg-lab-white); }   /* el fondo grafito del hover ya lo da .btn-cta:hover */
+
+/* ----- Estado: responsive y movimiento reducido ----- */
+@media (max-width: 480px) {
+    .status-element { width: 140px; height: 140px; }
+    .status-element-symbol { font-size: 52px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .status-element { animation: none; }
+    .status-liquid { animation: none; width: 70%; }
 }

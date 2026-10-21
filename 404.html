@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le pedimos a Google que no indexe esta página -->
+    <meta name="robots" content="noindex">
+
+    <title>404 · Noodle/Lab</title>
+
+    <!-- Favicon como emoji dentro del propio HTML: no depende de ninguna ruta de imagen -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍜</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <a href="/" class="status-brand" aria-label="Ir al inicio de Noodle/Lab">Noodle<span>/</span>Lab</a>
+
+    <main class="status-page status-page--error">
+
+        <!-- Elemento de la tabla periódica: 404 = número atómico, Er = "Error" -->
+        <div class="status-element" aria-hidden="true">
+            <span class="status-element-number">404</span>
+            <span class="status-element-symbol">Er</span>
+            <div>
+                <span class="status-element-name">ERROR</span><br>
+                <span class="status-element-cat">No encontrado</span>
+            </div>
+        </div>
+
+        <span class="status-tag">[ ERROR 404 ]</span>
+
+        <h1 class="status-title">Esta fórmula no existe.</h1>
+
+        <p class="status-message">
+            La página que buscás se evaporó del laboratorio, o nunca estuvo en la carta.
+            Volvé al inicio y elegí tu caldo.
+        </p>
+
+        <div class="status-actions">
+            <a href="/" class="btn-cta">
+                <i data-lucide="arrow-left"></i>
+                Volver al inicio
+            </a>
+            <a href="/#delivery" class="btn-cta btn-cta--outline">
+                Pedí por delivery
+                <i data-lucide="arrow-up-right"></i>
+            </a>
+        </div>
+
+    </main>
+
+    <script>
+        /* Dibuja los íconos de Lucide */
+        lucide.createIcons();
+    </script>
+
+</body>
+
+</html>
