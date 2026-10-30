@@ -242,41 +242,168 @@ if (aboutContent && aboutImage) {
 }
 
 
-/* CONTACTO: TÍTULO ENTRA AL SCROLLEAR + ENVÍO DEL FORMULARIO */
+/* CONTACTO: TÍTULO ENTRA AL SCROLLEAR + ANIMACIÓN, VALIDACIÓN Y ENVÍO  */
 
-const contactTitle = document.getElementById('contact-title');
+const contactTitle = document.getElementById("contact-title");
 
 if (contactTitle) {
-
     const contactObserver = new IntersectionObserver((entries) => {
-
         entries.forEach((entry) => {
-
             if (entry.isIntersecting) {
-                contactTitle.classList.add('in-view');
+                contactTitle.classList.add("in-view");
                 contactObserver.unobserve(entry.target);
             }
-
         });
-
-    }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
-
-    contactObserver.observe(contactTitle);
-
-}
-
-const contactForm = document.getElementById('contact-form');
-
-if (contactForm) {
-
-    contactForm.addEventListener('submit', (event) => {
-
-        event.preventDefault();
-        alert('¡Gracias! Tu mensaje fue enviado.');
-        contactForm.reset();
-
+    }, {
+        threshold: 0.1,
+        rootMargin: "0px 0px -100px 0px"
     });
 
+    contactObserver.observe(contactTitle);
+}
+
+const contactForm = document.getElementById("contact-form");
+const contactFeedback = document.getElementById("contact-feedback");
+
+if (contactForm && contactFeedback) {
+
+    // Solo los campos visibles (dentro de .contact-field).
+    // Así el campo trampa (_gotcha) y el asunto oculto (_subject) no se validan.
+    const fields = contactForm.querySelectorAll(
+        ".contact-field input, .contact-field textarea"
+    );
+
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    const submitText = submitButton.querySelector(".submit-text");
+
+    // Validación visual de cada campo
+    function validateField(field) {
+        const wrapper = field.closest(".contact-field");
+        const error = wrapper.querySelector(".field-error");
+        const value = field.value.trim();
+
+        let message = "";
+
+        if (field.required && !value) {
+            message = "Este campo es obligatorio.";
+        } else if (field.validity.typeMismatch) {
+            message = "Ingresá un email válido.";
+        } else if (field.name === "celular" && value) {
+            const digits = value.replace(/\D/g, "");
+
+            if (/[^\d+\s()-]/.test(value)) {
+                message = "Ingresá solo números.";
+            } else if (digits.length < 8 || digits.length > 15) {
+                message = "Ingresá un número válido (entre 8 y 15 dígitos).";
+            }
+        }
+
+        wrapper.classList.toggle("is-invalid", Boolean(message));
+        wrapper.classList.toggle("is-valid", !message && value.length > 0);
+
+        error.textContent = message;
+        field.setAttribute("aria-invalid", String(Boolean(message)));
+
+        return !message;
+    }
+
+    fields.forEach((field) => {
+        field.addEventListener("blur", () => {
+            validateField(field);
+        });
+
+        field.addEventListener("input", () => {
+            const wrapper = field.closest(".contact-field");
+
+            // Celular: borra al instante todo lo que no sea número, +, espacio, paréntesis o guion
+            if (field.name === "celular") {
+                const cleaned = field.value.replace(/[^\d+\s()-]/g, "");
+                if (cleaned !== field.value) {
+                    field.value = cleaned;
+                }
+            }
+
+            if (wrapper.classList.contains("is-invalid") || field.value.trim()) {
+                validateField(field);
+            } else {
+                wrapper.classList.remove("is-valid");
+            }
+
+            contactFeedback.textContent = "";
+            delete contactFeedback.dataset.status;
+        });
+    });
+
+    // Envío real a Formspree
+    contactForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        let formIsValid = true;
+
+        fields.forEach((field) => {
+            if (!validateField(field)) {
+                formIsValid = false;
+            }
+        });
+
+        if (!formIsValid) {
+            contactForm.querySelector(".is-invalid input, .is-invalid textarea")?.focus();
+            return;
+        }
+
+        submitButton.disabled = true;
+        submitText.textContent = "Enviando...";
+        contactFeedback.textContent = "";
+        delete contactFeedback.dataset.status;
+
+        try {
+            const response = await fetch(contactForm.action, {
+                method: "POST",
+                body: new FormData(contactForm),
+                headers: {
+                    Accept: "application/json"
+                }
+            });
+
+            // Leemos la respuesta de Formspree (si no es JSON, queda vacía)
+            let data = {};
+            try {
+                data = await response.json();
+            } catch (_) {}
+
+            if (!response.ok) {
+                const detail =
+                    data.errors?.map((e) => e.message).join(", ") ||
+                    data.error ||
+                    "Error " + response.status;
+                throw new Error(detail);
+            }
+
+            contactForm.reset();
+
+            fields.forEach((field) => {
+                const wrapper = field.closest(".contact-field");
+                wrapper.classList.remove("is-valid", "is-invalid");
+                field.removeAttribute("aria-invalid");
+                wrapper.querySelector(".field-error").textContent = "";
+            });
+
+            contactFeedback.textContent = "¡Gracias por compartir tu experiencia! 🍜";
+            contactFeedback.dataset.status = "success";
+
+        } catch (error) {
+            contactFeedback.textContent =
+                "No pudimos enviar tu mensaje. Intentá nuevamente.";
+            contactFeedback.dataset.status = "error";
+
+            // El motivo real queda acá (F12 → Consola)
+            console.error("Error de contacto:", error.message);
+
+        } finally {
+            submitButton.disabled = false;
+            submitText.textContent = "Enviar mensaje";
+        }
+    });
 }
 
 
