@@ -1,4 +1,5 @@
 /*CSS*/
+
 /* VARIABLES */
 :root {
     --bg-lab-white: #F7F5F0;
@@ -64,18 +65,18 @@ body.no-scroll { overflow: hidden; height: 100vh; }
 
 /* NAV — FIJO (FIXED) */
 nav {
-    position: fixed; /* Cambiado de sticky a fixed */
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%; /* Asegura que ocupe todo el ancho de la pantalla */
-    display: grid; 
+    width: 100%;
+    display: grid;
     grid-template-columns: auto 1fr auto auto; /* 4ª columna = botón carrito */
-    align-items: center; 
+    align-items: center;
     padding: 20px 40px;
     background: rgba(247, 245, 240, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    z-index: 1000; /* Incrementado para asegurar que quede por encima de todo */
+    z-index: 1000;
     transition: box-shadow 0.3s ease, padding 0.3s ease;
 }
 nav.scrolled {
@@ -179,7 +180,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     padding: 150px 150px; max-width: 1600px; margin: 0 auto; background: var(--bg-lab-white);
     min-height: calc(100vh - 80px);
 }
-.hero-content { 
+.hero-content {
     flex: 1; min-width: 320px;
     opacity: 0;
     transform: translateX(-100px);
@@ -189,16 +190,15 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     opacity: 1;
     transform: translateX(0);
 }
-.hero-tag { 
+.hero-tag {
     font-family: var(--font-body); font-size: 13px; letter-spacing: 1.5px; color: var(--brand-sage-lab); font-weight: 600; display: block;
- }
+}
 .location-badge {
     font-size: 12px; font-weight: 500; letter-spacing: 1.5px; margin: 10px 0 20px;
     display: flex; align-items: center; gap: 6px; color: var(--brand-graphite);
 }
-.hero-content h1 { 
-    font-size: 52px; font-weight: 700; line-height: 1.1; margin-bottom: 24px; color: var(--brand-graphite); 
-    
+.hero-content h1 {
+    font-size: 52px; font-weight: 700; line-height: 1.1; margin-bottom: 24px; color: var(--brand-graphite);
 }
 .hero-text {
     font-size: 15px; line-height: 1.6; max-width: 440px; margin-bottom: 32px;
@@ -340,7 +340,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     30% { transform: translateY(-14px); filter: drop-shadow(0 0 16px var(--brand-chili-red)); }
 }
 
-/*GRID MINIMALISTA DE BOTELLAS*/
+/* GRID MINIMALISTA DE BOTELLAS */
 .min-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -404,6 +404,10 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
 @media (max-width: 480px) {
     .min-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* =========================================================
+   RESPONSIVE: NAV + HERO
+   ========================================================= */
 
 /* TABLET */
 @media (max-width: 1000px) {
@@ -489,7 +493,57 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     .hero-bottles-section { padding: 0 20px; margin: 20px auto 40px; scroll-margin-top: 70px; }
 }
 
-/* NOSOTROS */
+/* MOBILE PEQUEÑO */
+@media (max-width: 480px) {
+    nav { padding: 14px 16px; }
+    nav img { height: 29px; }
+
+    .hero { padding: 28px 16px; }
+    .hero-tag { font-size: 9px; letter-spacing: 0.9px; }
+    .location-badge { font-size: 9px; }
+    .hero-content h1 { font-size: 34px; }
+    .hero-text { font-size: 12px; line-height: 1.6; }
+
+    .hero-image-wrapper { margin-top: 30px; }
+    .hero-stamp { width: 70px; right: 0; bottom: -2px; }
+
+    .click-hint { top: -32px; left: 0; }
+    .hint-text { font-size: 8px; padding: 5px 9px; }
+    .flecha-curva { width: 48px; }
+
+    .elemento-quimico { width: 50px; height: 50px; padding: 4px; }
+    .numero-atomico { font-size: 0.42rem; }
+    .simbolo { font-size: 0.9rem; }
+    .nombre { font-size: 0.36rem; }
+    .categoria { font-size: 0.3rem; }
+
+    .elem-picante { top: -12px; left: 5%; }
+    .elem-res { top: -12px; right: 5%; }
+    .elem-cerdo { left: 0; top: 25%; }
+    .elem-pollo { left: 0; bottom: 18%; }
+    .elem-pescado { right: 0; top: 40%; }
+    .elem-vegano { right: 58px; bottom: 2%; }
+
+    .hero-bottles-section { padding: 0 16px; }
+}
+
+/* MOBILE MUY PEQUEÑO */
+@media (max-width: 360px) {
+    .hero { padding-left: 14px; padding-right: 14px; }
+    .hero-content h1 { font-size: 31px; }
+    .hero-text { font-size: 11px; }
+    .elemento-quimico { width: 46px; height: 46px; }
+    .simbolo { font-size: 0.8rem; }
+    .nombre { font-size: 0.32rem; }
+    .categoria { font-size: 0.27rem; }
+    .hero-stamp { width: 62px; }
+    .elem-vegano { right: 50px; }
+}
+
+/* =========================================================
+   NOSOTROS
+   ========================================================= */
+
 .about-section {
     padding: 100px 60px;
     background: var(--bg-lab-white);
@@ -544,9 +598,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     margin-bottom: 16px;
 }
 
-.about-lead strong {
-    color: var(--brand-chili-red);
-}
+.about-lead strong { color: var(--brand-chili-red); }
 
 .about-text {
     font-size: 14px;
@@ -555,6 +607,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     opacity: 0.85;
     margin-bottom: 36px;
 }
+
 /* Pilares */
 .about-pillars {
     display: grid;
@@ -571,10 +624,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     border-left: 3px solid var(--brand-sage-lab);
     transition: transform 0.25s ease;
 }
-
-.pillar-card:hover {
-    transform: translateY(-3px);
-}
+.pillar-card:hover { transform: translateY(-3px); }
 
 .pillar-num {
     font-family: var(--font-body);
@@ -624,10 +674,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     display: block;
     transition: transform 0.5s ease;
 }
-
-.about-image-container:hover .about-img {
-    transform: scale(1.04);
-}
+.about-image-container:hover .about-img { transform: scale(1.04); }
 
 .about-badge {
     position: absolute;
@@ -658,16 +705,41 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     opacity: 0.75;
 }
 
-/*CONTACTO*/
+/* ----- Nosotros: responsive ----- */
+@media (max-width: 1000px) {
+    .about-section { padding: 80px 40px; }
+    .about-container { gap: 40px; }
+    .about-content h2 { font-size: 34px; }
+}
+
+@media (max-width: 768px) {
+    .about-section { padding: 60px 20px; scroll-margin-top: 65px; }
+    .about-container { flex-direction: column; gap: 40px; }
+    .about-image-wrapper { justify-content: center; }
+    .about-image-container { max-width: 100%; aspect-ratio: 4 / 3; }
+    .about-pillars { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+    .about-content h2 { font-size: 28px; }
+    .about-lead { font-size: 14px; }
+    .about-text { font-size: 13px; }
+}
+
+/* =========================================================
+   CONTACTO
+   ========================================================= */
+
+/* ----- Sección ----- */
 .contact-section {
-    padding: 100px 60px 60px; 
+    padding: 100px 60px 60px;
     background: var(--bg-lab-white);
     border-top: 1px solid rgba(43, 43, 43, 0.1);
     text-align: center;
     overflow: hidden;
 }
 
-/* SELLO PARPADEANTE */
+/* ----- Sello parpadeante ----- */
 .contact-stamp {
     width: 200px;
     height: auto;
@@ -679,15 +751,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     50% { opacity: 0.35; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .contact-stamp { animation: none; }
-}
-
-@media (max-width: 480px) {
-    .contact-stamp { width: 95px; }
-}
-
-/* TÍTULO — entra de derecha a izquierda */
+/* ----- Título (entra de izquierda a derecha) ----- */
 .contact-title {
     font-size: clamp(28px, 4vw, 44px);
     font-weight: 700;
@@ -696,18 +760,15 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     margin: 0 auto 60px;
     color: var(--brand-graphite);
     opacity: 0;
-    transform: translateX(-80px); 
-    transition: opacity 1.4s ease, transform 1.4s ease; 
+    transform: translateX(-80px);
+    transition: opacity 1.4s ease, transform 1.4s ease;
 }
 .contact-title.in-view {
     opacity: 1;
     transform: translateX(0);
 }
-@media (prefers-reduced-motion: reduce) {
-    .contact-title { transition: none; opacity: 1; transform: none; }
-}
 
-/* GRID: FOTO + FORMULARIO */
+/* ----- Grid: foto + formulario ----- */
 .contact-grid {
     display: grid;
     grid-template-columns: 1.1fr 1fr;
@@ -721,12 +782,15 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
 
 .contact-image { min-height: 480px; }
 .contact-image img {
-    width: 100%; height: 100%;
-    object-fit: cover; display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
-/* FORMULARIO — panel oscuro, estilo "ficha de laboratorio" */
+/* ----- Formulario: panel oscuro, estilo "ficha de laboratorio" ----- */
 .contact-form {
+    position: relative;                 /* ancla del campo trampa anti-spam */
     background: var(--brand-graphite);
     padding: 40px 36px;
     display: flex;
@@ -734,6 +798,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     gap: 22px;
 }
 
+/* ----- Campos ----- */
 .contact-field { display: flex; flex-direction: column; gap: 8px; }
 .contact-field span {
     font-family: var(--font-heading);
@@ -741,6 +806,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     font-weight: 700;
     letter-spacing: 1.5px;
     color: var(--brand-chili-red);
+    transition: color 0.25s ease;
 }
 
 .contact-field input,
@@ -756,15 +822,57 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     transition: border-color 0.25s ease;
     resize: none;
 }
+.contact-field textarea { min-height: 90px; }   /* altura mínima cómoda */
+
 .contact-field input:focus,
-.contact-field textarea:focus {
-    border-color: var(--brand-chili-red);
-}
+.contact-field textarea:focus { border-color: var(--brand-chili-red); }
+
 .contact-field input::placeholder,
-.contact-field textarea::placeholder {
-    color: rgba(247, 245, 240, 0.4);
+.contact-field textarea::placeholder { color: rgba(247, 245, 240, 0.4); }
+
+/* Autocompletado del navegador: evita el fondo blanco/azul sobre el panel oscuro */
+.contact-field input:-webkit-autofill,
+.contact-field input:-webkit-autofill:hover,
+.contact-field input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--bg-lab-white);
+    caret-color: var(--bg-lab-white);
+    transition: background-color 9999s ease-in-out 0s;
+    box-shadow: 0 0 0 1000px var(--brand-graphite) inset;
 }
 
+/* ----- Validación: mensaje de error ----- */
+/* Reserva su altura (min-height) para que el formulario no "salte" cuando aparece */
+.field-error {
+    min-height: 15px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    line-height: 1.3;
+    color: #FF8A75;                     /* rojo más claro que el chili: se lee mejor sobre el grafito */
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.contact-field.is-invalid .field-error { opacity: 1; transform: translateY(0); }
+
+/* ----- Validación: estados del campo ----- */
+.contact-field.is-invalid input,
+.contact-field.is-invalid textarea { border-bottom-color: #FF8A75; }
+.contact-field.is-invalid > span { color: #FF8A75; }
+
+.contact-field.is-valid input,
+.contact-field.is-valid textarea { border-bottom-color: #7FC4B1; }
+
+/* ----- Campo trampa anti-spam ----- */
+/* Fuera de pantalla, pero NO con display:none (los bots lo detectarían) */
+.contact-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* ----- Botón de envío ----- */
 .contact-submit {
     margin-top: 10px;
     display: inline-flex;
@@ -789,8 +897,45 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     color: var(--bg-lab-white);
     transform: translateY(-2px);
 }
+.contact-submit:focus-visible { outline: 2px solid var(--brand-chili-red); outline-offset: 3px; }
 
-/* INFO DE CONTACTO (email / instagram) */
+/* Mientras envía: sin hover, con spinner en lugar del avión */
+.contact-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+.contact-submit:disabled:hover {
+    background: var(--bg-lab-white);
+    color: var(--brand-graphite);
+    transform: none;
+}
+.contact-submit:disabled svg { display: none; }
+.contact-submit:disabled::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: form-spin 0.7s linear infinite;
+}
+@keyframes form-spin { to { transform: rotate(360deg); } }
+
+/* ----- Mensaje de resultado (éxito / error de envío) ----- */
+.contact-feedback {
+    min-height: 20px;
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--bg-lab-white);
+}
+.contact-feedback[data-status] { animation: feedback-in 0.4s ease; }
+.contact-feedback[data-status="success"] { color: #7FC4B1; }
+.contact-feedback[data-status="error"] { color: #FF8A75; }
+@keyframes feedback-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ----- Info de contacto (email / instagram) ----- */
 .contact-info {
     max-width: 1200px;
     margin: 20px auto 0;
@@ -798,7 +943,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     justify-content: center;
     gap: 60px;
     flex-wrap: wrap;
-    padding-bottom: 60px; 
+    padding-bottom: 60px;
 }
 
 .contact-info-item {
@@ -838,7 +983,37 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     font-weight: 600;
 }
 
-/* FOOTER*/
+/* ----- Contacto: responsive ----- */
+@media (max-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    .contact-image { min-height: 260px; }
+}
+
+@media (max-width: 768px) {
+    .contact-section { padding: 70px 20px 80px; }
+    .contact-title { margin-bottom: 40px; }
+    .contact-form { padding: 30px 24px; }
+}
+
+@media (max-width: 480px) {
+    .contact-stamp { width: 95px; }
+    .contact-info { gap: 30px; margin-top: 30px; }
+    .contact-info-value { font-size: 13px; }
+}
+
+/* ----- Contacto: movimiento reducido ----- */
+@media (prefers-reduced-motion: reduce) {
+    .contact-stamp { animation: none; }
+    .contact-title { transition: none; opacity: 1; transform: none; }
+    .field-error { transition: none; }
+    .contact-feedback[data-status] { animation: none; }
+    .contact-submit:disabled::after { animation-duration: 1.6s; }
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
 .site-footer {
     background: var(--brand-graphite);
     color: var(--bg-lab-white);
@@ -855,16 +1030,14 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     border-bottom: 1px solid rgba(247, 245, 240, 0.15);
 }
 
-/* MARCA */
+/* Marca */
 .footer-brand {
     display: flex;
     flex-direction: column;
     gap: 14px;
     align-items: flex-start;
 }
-.footer-logo { 
-    height: 32px; width: auto; 
-}
+.footer-logo { height: 32px; width: auto; }
 .footer-tagline {
     font-family: var(--font-body);
     font-size: 13px;
@@ -873,7 +1046,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     max-width: 240px;
 }
 
-/* COLUMNAS */
+/* Columnas */
 .footer-col h4 {
     font-family: var(--font-heading);
     font-size: 13px;
@@ -919,7 +1092,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
 .footer-link-cta svg { width: 14px; height: 14px; }
 .footer-link-cta:hover { color: var(--brand-chili-red); }
 
-/* REDES */
+/* Redes */
 .footer-socials { display: flex; gap: 14px; }
 .footer-socials a {
     width: 38px; height: 38px;
@@ -936,7 +1109,7 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     border-color: var(--brand-chili-red);
 }
 
-/* CRÉDITOS */
+/* Créditos */
 .footer-bottom {
     max-width: 1300px;
     margin: 0 auto;
@@ -951,13 +1124,13 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     font-size: 11px;
     opacity: 0.80;
 }
-.footer-bottom strong { 
+.footer-bottom strong {
     opacity: 1;
     font-weight: 600;
     color: var(--bg-lab-white);
 }
 
-/* RESPONSIVE */
+/* ----- Footer: responsive ----- */
 @media (max-width: 900px) {
     .footer-main { grid-template-columns: 1fr 1fr; }
 }
@@ -968,119 +1141,9 @@ nav ul a.active:not(.nav-right-menu)::after { width: 100%; }
     .footer-bottom { flex-direction: column; text-align: center; }
 }
 
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-    .contact-grid { grid-template-columns: 1fr; }
-    .contact-image { min-height: 260px; }
-}
-
-@media (max-width: 768px) {
-    .contact-section { padding: 70px 20px 80px; }
-    .contact-title { margin-bottom: 40px; }
-    .contact-form { padding: 30px 24px; }
-}
-
-@media (max-width: 480px) {
-    .contact-info { gap: 30px; margin-top: 30px; }
-    .contact-info-value { font-size: 13px; }
-} 
-
-/* Media queries */
-@media (max-width: 1000px) {
-    .about-section {
-        padding: 80px 40px;
-    }
-    .about-container {
-        gap: 40px;
-    }
-    .about-content h2 {
-        font-size: 34px;
-    }
-}
-
-@media (max-width: 768px) {
-    .about-section {
-        padding: 60px 20px;
-        scroll-margin-top: 65px;
-    }
-    .about-container {
-        flex-direction: column;
-        gap: 40px;
-    }
-    .about-image-wrapper {
-        justify-content: center;
-    }
-    .about-image-container {
-        max-width: 100%;
-        aspect-ratio: 4 / 3;
-    }
-    .about-pillars {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .about-content h2 {
-        font-size: 28px;
-    }
-    .about-lead {
-        font-size: 14px;
-    }
-    .about-text {
-        font-size: 13px;
-    }
-}
-
-/* MOBILE PEQUEÑO */
-@media (max-width: 480px) {
-    nav { padding: 14px 16px; }
-    nav img { height: 29px; }
-
-    .hero { padding: 28px 16px; }
-    .hero-tag { font-size: 9px; letter-spacing: 0.9px; }
-    .location-badge { font-size: 9px; }
-    .hero-content h1 { font-size: 34px; }
-    .hero-text { font-size: 12px; line-height: 1.6; }
-
-    .hero-image-wrapper { margin-top: 30px; }
-    .hero-stamp { width: 70px; right: 0; bottom: -2px; }
-
-    .click-hint { top: -32px; left: 0; }
-    .hint-text { font-size: 8px; padding: 5px 9px; }
-    .flecha-curva { width: 48px; }
-
-    .elemento-quimico { width: 50px; height: 50px; padding: 4px; }
-    .numero-atomico { font-size: 0.42rem; }
-    .simbolo { font-size: 0.9rem; }
-    .nombre { font-size: 0.36rem; }
-    .categoria { font-size: 0.3rem; }
-
-    .elem-picante { top: -12px; left: 5%; }
-    .elem-res { top: -12px; right: 5%; }
-    .elem-cerdo { left: 0; top: 25%; }
-    .elem-pollo { left: 0; bottom: 18%; }
-    .elem-pescado { right: 0; top: 40%; }
-    .elem-vegano { right: 58px; bottom: 2%; }
-
-    .hero-bottles-section { padding: 0 16px; }
-}
-
-/* MOBILE MUY PEQUEÑO */
-@media (max-width: 360px) {
-    .hero { padding-left: 14px; padding-right: 14px; }
-    .hero-content h1 { font-size: 31px; }
-    .hero-text { font-size: 11px; }
-    .elemento-quimico { width: 46px; height: 46px; }
-    .simbolo { font-size: 0.8rem; }
-    .nombre { font-size: 0.32rem; }
-    .categoria { font-size: 0.27rem; }
-    .hero-stamp { width: 62px; }
-    .elem-vegano { right: 50px; }
-}
-
-
-/* ----- Tienda: card de producto, carrito y aviso ----- */
+/* =========================================================
+   TIENDA: CARD DE PRODUCTO, CARRITO Y AVISO
+   ========================================================= */
 
 /* ----- Bloqueo de scroll ----- */
 /* Clase aparte de .no-scroll a propósito: .no-scroll es del hero y el JS la quita al navegar.
@@ -1449,39 +1512,6 @@ body.lock-scroll { overflow: hidden; }
 .toast svg { width: 16px; height: 16px; color: var(--brand-sage-lab); flex-shrink: 0; }
 .toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
 
-/* ----- Mobile: la card y el carrito suben desde abajo (como en la referencia) ----- */
-@media (max-width: 600px) {
-    .product-modal {
-        top: auto;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        max-height: 92vh;
-        border-radius: 28px 28px 0 0;
-        border-bottom: none;
-        transform: translateY(100%);
-    }
-    .product-modal.is-open { transform: translateY(0); }
-    .product-hero { height: 190px; }
-    .product-body { padding: 20px 20px 24px; }
-
-    .cart-drawer {
-        top: auto;
-        left: 0;
-        width: 100%;
-        height: 85vh;
-        border-left: none;
-        border-top: 1.5px solid var(--brand-graphite);
-        border-radius: 28px 28px 0 0;
-        transform: translateY(100%);
-    }
-    .cart-drawer.is-open { transform: translateY(0); }
-    .cart-head { padding: 18px 20px; }
-    .cart-body { padding: 4px 20px; }
-    .cart-foot { padding: 16px 20px 22px; }
-}
-
-
 /* ----- Subtítulo del caldo (ej: Tonkotsu Intenso) ----- */
 .product-subtitle {
     display: block;
@@ -1532,13 +1562,46 @@ body.lock-scroll { overflow: hidden; }
 }
 .cart-tag svg { width: 11px; height: 11px; }
 
+/* ----- Tienda: mobile (la card y el carrito suben desde abajo) ----- */
+@media (max-width: 600px) {
+    .product-modal {
+        top: auto;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: 92vh;
+        border-radius: 28px 28px 0 0;
+        border-bottom: none;
+        transform: translateY(100%);
+    }
+    .product-modal.is-open { transform: translateY(0); }
+    .product-hero { height: 190px; }
+    .product-body { padding: 20px 20px 24px; }
+
+    .cart-drawer {
+        top: auto;
+        left: 0;
+        width: 100%;
+        height: 85vh;
+        border-left: none;
+        border-top: 1.5px solid var(--brand-graphite);
+        border-radius: 28px 28px 0 0;
+        transform: translateY(100%);
+    }
+    .cart-drawer.is-open { transform: translateY(0); }
+    .cart-head { padding: 18px 20px; }
+    .cart-body { padding: 4px 20px; }
+    .cart-foot { padding: 16px 20px 22px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .product-modal, .cart-drawer, .overlay, .toast, .cart-count { transition: none; }
     .cart-btn.bump { animation: none; }
 }
 
-
-/* ----- Secciones: Delivery y Preguntas Frecuentes ----- */
+/* =========================================================
+   DELIVERY Y PREGUNTAS FRECUENTES
+   ========================================================= */
 
 /* ----- Aparición al scrollear (.reveal) ----- */
 /* Arranca invisible y 40px más abajo. El JS le suma .in-view cuando entra en pantalla. */
@@ -1661,7 +1724,7 @@ body.lock-scroll { overflow: hidden; }
 .faq-answer p { padding: 0 40px 22px 4px; font-size: 14px; line-height: 1.7; opacity: 0.85; }
 .faq-answer a { color: var(--brand-chili-red); font-weight: 600; }
 
-/* ----- Responsive: tablet ----- */
+/* ----- Delivery y FAQ: tablet ----- */
 @media (max-width: 1000px) {
     .delivery-section, .faq-section { padding: 80px 40px; }
     .delivery-head h2, .faq-intro h2 { font-size: 34px; }
@@ -1669,7 +1732,7 @@ body.lock-scroll { overflow: hidden; }
     .faq-container { gap: 40px; }
 }
 
-/* ----- Responsive: mobile ----- */
+/* ----- Delivery y FAQ: mobile ----- */
 @media (max-width: 768px) {
     .delivery-section, .faq-section { padding: 60px 20px; scroll-margin-top: 65px; }
     .delivery-head { margin-bottom: 32px; }
@@ -1690,8 +1753,9 @@ body.lock-scroll { overflow: hidden; }
     .faq-answer, .faq-question svg, .delivery-card, .delivery-arrow { transition: none; }
 }
 
-
-/* ----- Scroll "glass" (card de producto y carrito) ----- */
+/* =========================================================
+   SCROLL "GLASS" (card de producto y carrito)
+   ========================================================= */
 /* Una barra fina y translúcida: pista transparente, sin flechas y con una "píldora" flotante.
    Son dos bloques porque cada navegador se estiliza distinto:
    - Chrome, Edge y Safari usan los pseudo-elementos ::-webkit-scrollbar
@@ -1744,8 +1808,9 @@ body.lock-scroll { overflow: hidden; }
 
 }
 
-
-/* ----- Páginas de estado: 404 y blog en construcción ----- */
+/* =========================================================
+   PÁGINAS DE ESTADO: 404 Y BLOG EN CONSTRUCCIÓN
+   ========================================================= */
 /* Estos estilos los comparten 404.html y blog/index.html.
    Cada página elige su color con un modificador en el <main>:
    .status-page--error (rojo) o .status-page--blog (verde). */

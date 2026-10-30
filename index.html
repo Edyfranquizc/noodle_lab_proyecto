@@ -478,34 +478,48 @@
                     <img src="img/noodle-lab-contactos.png" alt="Cliente disfrutando un ramen Noodle/Lab">
                 </div>
 
-                <form class="contact-form" id="contact-form">
+                <form class="contact-form" id="contact-form" action="https://formspree.io/f/xgaazdgk" method="POST" novalidate>
 
-                    <label class="contact-field">
-                        <span>NOMBRE Y APELLIDO</span>
-                        <input type="text" name="nombre" required>
-                    </label>
+                <label class="contact-field">
+                    <span>NOMBRE Y APELLIDO</span>
+                    <input type="text" name="nombre" autocomplete="name" required aria-describedby="error-nombre">
+                    <small class="field-error" id="error-nombre"></small>
+                </label>
 
-                    <label class="contact-field">
-                        <span>E-MAIL</span>
-                        <input type="email" name="email" required>
-                    </label>
+                <label class="contact-field">
+                    <span>E-MAIL</span>
+                    <input type="email" name="email" autocomplete="email" required aria-describedby="error-email">
+                    <small class="field-error" id="error-email"></small>
+                </label>
 
-                    <label class="contact-field">
-                        <span>CELULAR</span>
-                        <input type="tel" name="celular">
-                    </label>
+                <label class="contact-field">
+                    <span>CELULAR</span>
+                    <input type="tel" name="celular" inputmode="tel" autocomplete="tel" maxlength="20" required aria-describedby="error-celular">
+                    <small class="field-error" id="error-celular"></small>
+                </label>
 
-                    <label class="contact-field contact-field--textarea">
-                        <span>MENSAJE</span>
-                        <textarea name="mensaje" rows="3"></textarea>
-                    </label>
+                <label class="contact-field contact-field--textarea">
+                    <span>MENSAJE</span>
+                    <textarea name="mensaje" rows="3" required aria-describedby="error-mensaje"></textarea>
+                    <small class="field-error" id="error-mensaje"></small>
+                </label>
 
-                    <button type="submit" class="contact-submit">
-                        Enviar
-                        <i data-lucide="send"></i>
-                    </button>
+                <!-- Anti-spam: los bots lo completan, las personas no lo ven. Formspree descarta esos envíos -->
+                <div class="contact-hp" aria-hidden="true">
+                    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+                </div>
 
-                </form>
+                <!-- Asunto del mail que te llega -->
+                <input type="hidden" name="_subject" value="Nuevo mensaje desde la web de Noodle/Lab">
+
+                <button type="submit" class="contact-submit">
+                    <span class="submit-text">Enviar mensaje</span>
+                    <i data-lucide="send"></i>
+                </button>
+
+                <p class="contact-feedback" id="contact-feedback" role="status" aria-live="polite"></p>
+
+            </form>
 
             </div>
 
