@@ -5,7 +5,7 @@
   # 🍜🧪 NOODLE / LAB
   ### *La Fórmula del Ramen Urbano*
 
-  [![Behance](https://img.shields.io/badge/Behance-Caso_de_Estudio-1769FF?style=for-the-badge&logo=behance&logoColor=white)](https://www.behance.net/gallery/257381339/NoodleLab-la-formula-del-ramen-urbano)
+  [![Behance](https://img.shields.io/badge/Behance-Identidad_Visual-1769FF?style=for-the-badge&logo=behance&logoColor=white)](https://www.behance.net/gallery/257381339/NoodleLab-la-formula-del-ramen-urbano)
   [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](#)
   [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](#)
   [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](#)
@@ -27,7 +27,7 @@ Su concepto clave aborda el ramen desde una perspectiva sintética y experimenta
 Este repositorio abarca desde la conceptualización de la interfaz (UI/UX) hasta la implementación frontend responsive, ofreciendo una experiencia digital dinámica e inmersiva.
 
 🎨 **¿Quieres ver el desarrollo de la identidad visual completa?**  
-👉 **[Ver caso de estudio en Behance](https://www.behance.net/gallery/257381339/NoodleLab-la-formula-del-ramen-urbano)**
+👉 **[Ver Identidad Visual en Behance](https://www.behance.net/gallery/257381339/NoodleLab-la-formula-del-ramen-urbano)**
 
 ---
 
